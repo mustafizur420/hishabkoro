@@ -289,3 +289,24 @@ td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
 .plain { padding: 48px 0 72px; }
 .plain h1 { font-size: clamp(1.8rem, 4.6vw, 2.6rem); margin-bottom: 12px; }
 .prose .lead { color: var(--muted); font-size: 1.08rem; }
+
+/* চেকবক্স আর দ্রুত-বাছাই চিপ */
+.check { display: flex; gap: 10px; align-items: flex-start; font-size: 0.92rem; color: var(--ink); cursor: pointer; line-height: 1.5; }
+.check input { width: 20px; height: 20px; min-height: 0; margin-top: 2px; accent-color: var(--orange); flex: none; padding: 0; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.chips .tab { min-height: 38px; padding: 6px 14px; font-size: 0.86rem; }
+.seg { display: inline-flex; border: 1.5px solid var(--ink); border-radius: 999px; padding: 3px; margin-bottom: 18px; }
+.seg button { font: 600 0.88rem var(--display); border: 0; background: transparent; padding: 8px 16px; border-radius: 999px; cursor: pointer; color: var(--ink); min-height: 38px; }
+.seg button[aria-pressed='true'] { background: var(--ink); color: var(--white); }
+.big-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 18px; }
+.big-pair div { background: var(--cream); border-radius: var(--radius); padding: 14px 16px; }
+.big-pair span { display: block; font-size: 0.85rem; font-weight: 600; color: var(--muted); }
+.big-pair b { font: 800 1.6rem var(--display); color: var(--ink); }
+.month-table { font-size: 0.9rem; }
+.month-table td, .month-table th { padding: 8px 10px; white-space: nowrap; }
+.month-table tr.today td { background: #fff1e6; font-weight: 700; }
+.table-scroll { overflow-x: auto; border-radius: var(--radius); }
+.district-links { columns: 4 160px; list-style: none; padding: 0; margin: 0; }
+.district-links li { break-inside: avoid; padding: 3px 0; }
+.district-links a { text-decoration: none; }
+.district-links a:hover { color: var(--orange-deep); text-decoration: underline; }

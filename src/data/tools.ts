@@ -1,4 +1,4 @@
-export const groups = ['শিক্ষা ও চাকরি', 'টাকা-পয়সা', 'বাংলা লেখা', 'জমি ও তারিখ'] as const;
+export const groups = ['শিক্ষা ও চাকরি', 'টাকা-পয়সা', 'নামাজ ও রোজা', 'বাংলা লেখা', 'জমি ও তারিখ'] as const;
 
 export type Tone = 'green' | 'yellow' | 'orange' | 'peach' | 'cream';
 
@@ -43,6 +43,51 @@ export const tools: Tool[] = [
     icon: '৳',
     tone: 'orange',
     keywords: 'emi loan লোন কিস্তি kisti সুদ interest bank ব্যাংক',
+  },
+  {
+    href: '/income-tax/',
+    title: 'Income Tax Calculator',
+    desc: 'আয়বর্ষ ২০২৬-২৭-এর আয়কর',
+    group: 'টাকা-পয়সা',
+    icon: '%',
+    tone: 'yellow',
+    keywords: 'income tax ayokor আয়কর কর tax nbr রিটার্ন return স্ল্যাব slab বেতন salary',
+  },
+  {
+    href: '/electricity-bill/',
+    title: 'বিদ্যুৎ বিল ক্যালকুলেটর',
+    desc: 'ইউনিট দিলেই মাসের বিল',
+    group: 'টাকা-পয়সা',
+    icon: 'kW',
+    tone: 'peach',
+    keywords: 'electricity bill biddut bil বিদ্যুৎ বিল ইউনিট unit desco dpdc palli bidyut পল্লী বিদ্যুৎ berc',
+  },
+  {
+    href: '/zakat-calculator/',
+    title: 'যাকাত ক্যালকুলেটর',
+    desc: 'সম্পদ অনুযায়ী যাকাতের পরিমাণ',
+    group: 'নামাজ ও রোজা',
+    icon: '২.৫',
+    tone: 'green',
+    keywords: 'zakat jakat যাকাত নিসাব nisab সোনা gold রুপা silver রমজান ramadan',
+  },
+  {
+    href: '/prayer-times/',
+    title: 'নামাজের সময়সূচি',
+    desc: '৬৪ জেলার নামাজ, সেহরি ও ইফতার',
+    group: 'নামাজ ও রোজা',
+    icon: 'ফজ',
+    tone: 'orange',
+    keywords: 'namaz prayer time salat নামাজ সময় সেহরি sehri iftar ইফতার রোজা ramadan ফজর মাগরিব আজান azan',
+  },
+  {
+    href: '/bangla-date/',
+    title: 'আজকের বাংলা তারিখ',
+    desc: 'ইংরেজি ↔ বাংলা তারিখ, বঙ্গাব্দ',
+    group: 'জমি ও তারিখ',
+    icon: '১৪',
+    tone: 'yellow',
+    keywords: 'bangla date বাংলা তারিখ বঙ্গাব্দ bangabda calendar ক্যালেন্ডার পঞ্জিকা আজ কত তারিখ',
   },
   {
     href: '/bijoy-to-unicode/',

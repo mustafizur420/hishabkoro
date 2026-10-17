@@ -7,13 +7,23 @@ GitHub Pages-এ ফ্রি হোস্ট হয়; `main`-এ push কর�
 
 | পেজ | URL |
 | --- | --- |
-| হোম (সব টুলের তালিকা) | `/` |
-| CGPA ক্যালকুলেটর (সেমিস্টার GPA + আগের CGPA মিলিয়ে) | `/cgpa/` |
-| ভার্সিটি অনুযায়ী CGPA | `/cgpa/uttara-university/` |
+| হোম (সার্চ ও ক্যাটাগরিসহ সব টুল) | `/` |
+| CGPA ক্যালকুলেটর + ভার্সিটি অনুযায়ী পেজ | `/cgpa/`, `/cgpa/uttara-university/` |
 | বয়স ক্যালকুলেটর | `/age-calculator/` |
+| আয়কর ক্যালকুলেটর (আয়বর্ষ ২০২৬-২৭) | `/income-tax/` |
 | লোন EMI ক্যালকুলেটর | `/emi-calculator/` |
-| জমির মাপ রূপান্তর | `/land-converter/` |
+| বিদ্যুৎ বিল ক্যালকুলেটর (BERC, জুন ২০২৬) | `/electricity-bill/` |
+| যাকাত ক্যালকুলেটর | `/zakat-calculator/` |
+| নামাজ, সেহরি ও ইফতারের সময় (৬৪ জেলা) | `/prayer-times/`, `/prayer-times/<জেলা>/` |
+| বিজয় ↔ ইউনিকোড কনভার্টার | `/bijoy-to-unicode/`, `/unicode-to-bijoy/` |
+| বাংলা তারিখ কনভার্টার | `/bangla-date/` |
+| জমির মাপ ক্যালকুলেটর | `/land-converter/` |
 | About, Contact, Privacy, Terms (AdSense-এর জন্য দরকার) | `/about/` ইত্যাদি |
+
+**সরকার যে হার বদলায়, সেগুলো এক ফাইলে:** আয়কর `src/lib/tax.ts`, বিদ্যুৎ দর `src/lib/electricity.ts`।
+নতুন বাজেট বা BERC আদেশের পর শুধু ওই ফাইলের সংখ্যা আর টেস্ট বদলালেই হবে।
+
+সাইট প্রতিদিন বাংলাদেশ সময় রাত ১২:০৫-এ নিজে থেকে নতুন করে বিল্ড হয় (আজকের তারিখ আর নামাজের মাসিক টেবিল হালনাগাদ রাখতে)।
 
 সঙ্গে আছে: sitemap.xml, robots.txt, প্রতিটা পেজে আলাদা title/description/canonical, FAQ schema, AdSense-এর জায়গা।
 

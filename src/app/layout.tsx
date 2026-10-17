@@ -52,7 +52,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   <Link href="/cgpa/">CGPA</Link>
                 </li>
                 <li className="hide-sm">
-                  <Link href="/emi-calculator/">EMI</Link>
+                  <Link href="/prayer-times/">নামাজের সময়</Link>
                 </li>
                 <li className="hide-sm">
                   <Link href="/bijoy-to-unicode/">বিজয়-ইউনিকোড</Link>

@@ -5,6 +5,9 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  # প্রতিদিন বাংলাদেশ সময় রাত ১২:০৫-এ নতুন করে বিল্ড, যাতে আজকের তারিখ আর নামাজের মাসিক টেবিল হালনাগাদ থাকে
+  schedule:
+    - cron: '5 18 * * *'
 
 permissions:
   contents: read
