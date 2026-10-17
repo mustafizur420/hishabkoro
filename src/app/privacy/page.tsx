@@ -5,7 +5,7 @@ export const metadata: Metadata = { title: 'গোপনীয়তা নী�
 
 export default function Privacy() {
   return (
-    <div className="prose">
+    <div className="plain wrap narrow prose">
       <h1>গোপনীয়তা নীতি</h1>
       <p className="lead">সর্বশেষ হালনাগাদ: ১৭ অক্টোবর ২০২৬</p>
 

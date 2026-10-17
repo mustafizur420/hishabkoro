@@ -46,8 +46,8 @@ export function BijoyConverter({ direction }: { direction: Direction }) {
   };
 
   return (
-    <section className="calc" aria-label="রূপান্তর">
-      <div className="converter">
+    <div className="tool-panel wide">
+      <div className="tool-form">
         <div className="field">
           <label htmlFor="converter-input">{c.from}</label>
           <textarea
@@ -55,57 +55,55 @@ export function BijoyConverter({ direction }: { direction: Direction }) {
             value={input}
             placeholder={c.placeholder}
             onChange={(e) => setInput(e.target.value)}
-            rows={7}
+            rows={8}
             spellCheck={false}
             lang={direction === 'bijoy-to-unicode' ? 'en' : 'bn'}
           />
-          <div className="converter-bar">
-            <span className="small">{bn(input.length, 0)} অক্ষর</span>
-            <span className="converter-actions">
-              {!input && (
-                <button type="button" className="btn-quiet" onClick={() => setInput(c.sample)}>
-                  উদাহরণ দিয়ে দেখুন
-                </button>
-              )}
-              {input && (
-                <button type="button" className="btn-quiet" onClick={() => setInput('')}>
-                  মুছুন
-                </button>
-              )}
-            </span>
-          </div>
         </div>
-
-        <div className="field">
-          <label htmlFor="converter-output">{c.to}</label>
-          <textarea
-            id="converter-output"
-            value={output}
-            readOnly
-            rows={7}
-            placeholder="রূপান্তর এখানে সঙ্গে সঙ্গে দেখাবে"
-            spellCheck={false}
-            lang={direction === 'bijoy-to-unicode' ? 'bn' : 'en'}
-          />
-          <div className="converter-bar">
-            <span className="small" aria-live="polite">
-              {copied ? 'কপি হয়েছে' : ''}
-            </span>
-            <button type="button" className="btn" onClick={copy} disabled={!output}>
-              কপি করুন
+        <div className="bar">
+          <span className="small">{bn(input.length, 0)} অক্ষর</span>
+          {input ? (
+            <button type="button" className="btn ghost small-btn" onClick={() => setInput('')}>
+              মুছুন
             </button>
-          </div>
+          ) : (
+            <button type="button" className="btn ghost small-btn" onClick={() => setInput(c.sample)}>
+              উদাহরণ দিয়ে দেখুন
+            </button>
+          )}
         </div>
+        <p className="hint" style={{ marginTop: 12 }}>
+          <Link href={c.other.href}>⇄ {c.other.label}</Link>
+        </p>
       </div>
 
-      {direction === 'unicode-to-bijoy' && output && (
-        <p className="small">
-          এখানে লেখাটা অদ্ভুত দেখানোই স্বাভাবিক। Word-এ পেস্ট করে ফন্ট SutonnyMJ (বা অন্য কোনো MJ ফন্ট) দিলে ঠিক বাংলা দেখাবে।
-        </p>
-      )}
-      <p className="small">
-        <Link href={c.other.href}>{c.other.label}</Link>
-      </p>
-    </section>
+      <div className="tool-out converter-out">
+        <label htmlFor="converter-output" className="out-label">
+          {c.to}
+        </label>
+        <textarea
+          id="converter-output"
+          value={output}
+          readOnly
+          rows={8}
+          placeholder="রূপান্তর এখানে সঙ্গে সঙ্গে দেখাবে"
+          spellCheck={false}
+          lang={direction === 'bijoy-to-unicode' ? 'bn' : 'en'}
+        />
+        <div className="bar">
+          <span className="copied" aria-live="polite">
+            {copied ? '✓ কপি হয়েছে' : ''}
+          </span>
+          <button type="button" className="btn" onClick={copy} disabled={!output}>
+            কপি করুন
+          </button>
+        </div>
+        {direction === 'unicode-to-bijoy' && output && (
+          <p className="out-foot">
+            এখানে লেখাটা অদ্ভুত দেখানোই স্বাভাবিক। Word-এ পেস্ট করে ফন্ট SutonnyMJ (বা অন্য কোনো MJ ফন্ট) দিলে ঠিক বাংলা দেখাবে।
+          </p>
+        )}
+      </div>
+    </div>
   );
 }

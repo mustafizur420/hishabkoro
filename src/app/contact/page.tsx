@@ -5,7 +5,7 @@ export const metadata: Metadata = { title: 'যোগাযোগ', alternates: 
 
 export default function Contact() {
   return (
-    <div className="prose">
+    <div className="plain wrap narrow prose">
       <h1>যোগাযোগ</h1>
       <p className="lead">হিসাবে ভুল, নতুন টুলের অনুরোধ বা অন্য যেকোনো বিষয়ে ইমেইল করুন।</p>
       <p>

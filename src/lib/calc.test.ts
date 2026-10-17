@@ -49,6 +49,12 @@ describe('age', () => {
   it('counts years, months and days', () => {
     expect(ageOn('2000-01-15', '2026-10-17')).toMatchObject({ years: 26, months: 9, days: 2 });
   });
+  it('counts days to the next birthday', () => {
+    expect(ageOn('2000-01-15', '2026-10-17')?.daysToBirthday).toBe(90); // ১৫ জানুয়ারি ২০২৭
+    expect(ageOn('2000-10-17', '2026-10-17')?.daysToBirthday).toBe(0); // আজই জন্মদিন
+    expect(ageOn('2000-10-18', '2026-10-17')?.daysToBirthday).toBe(1);
+    expect(ageOn('2000-01-15', '2026-10-17')?.totalMonths).toBe(321);
+  });
   it('borrows days from the previous month', () => {
     expect(ageOn('2000-01-31', '2000-03-01')).toMatchObject({ years: 0, months: 1, days: 1 });
   });

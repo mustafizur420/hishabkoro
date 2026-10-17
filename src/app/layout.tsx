@@ -1,10 +1,16 @@
 import type { Metadata, Viewport } from 'next';
 import Link from 'next/link';
 import { site } from '@/config/site';
-// ফন্ট সাইটের সঙ্গেই থাকে (Google Fonts-এ আলাদা রিকোয়েস্ট লাগে না, দ্রুত লোড হয়)
-import '@fontsource/hind-siliguri/400.css';
-import '@fontsource/hind-siliguri/600.css';
-import '@fontsource/tiro-bangla/400.css';
+import { groups, tools } from '@/data/tools';
+// ফন্ট সাইটের সঙ্গেই থাকে। লাতিন: Plus Jakarta Sans + DM Sans (পোর্টফোলিওর মতো), বাংলা: Anek Bangla + Hind Siliguri
+import '@fontsource/plus-jakarta-sans/latin-700.css';
+import '@fontsource/plus-jakarta-sans/latin-800.css';
+import '@fontsource/dm-sans/latin-400.css';
+import '@fontsource/dm-sans/latin-600.css';
+import '@fontsource/anek-bangla/bengali-700.css';
+import '@fontsource/anek-bangla/bengali-800.css';
+import '@fontsource/hind-siliguri/bengali-400.css';
+import '@fontsource/hind-siliguri/bengali-600.css';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -14,11 +20,11 @@ export const metadata: Metadata = {
     template: `%s | ${site.name}`,
   },
   description:
-    'CGPA calculator, EMI calculator, age calculator আর জমির মাপ রূপান্তর — বাংলাদেশিদের প্রতিদিনের হিসাবের ফ্রি টুল, বাংলায়।',
+    'CGPA calculator, EMI calculator, age calculator, বিজয়-ইউনিকোড কনভার্টার আর জমির মাপ — বাংলাদেশিদের প্রতিদিনের হিসাবের ফ্রি টুল, বাংলায়।',
   openGraph: { siteName: site.name, locale: 'bn_BD', type: 'website' },
 };
 
-export const viewport: Viewport = { themeColor: '#f3f6f8', width: 'device-width', initialScale: 1 };
+export const viewport: Viewport = { themeColor: '#f6f3ee', width: 'device-width', initialScale: 1 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -35,24 +41,79 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <header className="site-header">
-          <Link href="/" className="brand">
-            {site.name}
-          </Link>
-          <nav aria-label="প্রধান">
-            <Link href="/">সব টুল</Link>
-          </nav>
+          <div className="wrap nav">
+            <Link href="/" className="logo" aria-label={`${site.name} — হোম`}>
+              {site.name}
+              <span className="dot">.</span>
+            </Link>
+            <nav aria-label="প্রধান">
+              <ul className="nav-links">
+                <li className="hide-sm">
+                  <Link href="/cgpa/">CGPA</Link>
+                </li>
+                <li className="hide-sm">
+                  <Link href="/emi-calculator/">EMI</Link>
+                </li>
+                <li className="hide-sm">
+                  <Link href="/bijoy-to-unicode/">বিজয়-ইউনিকোড</Link>
+                </li>
+                <li>
+                  <Link href="/#tools" className="btn dark small-btn">
+                    সব টুল
+                  </Link>
+                </li>
+              </ul>
+            </nav>
+          </div>
         </header>
-        <main className="sheet">{children}</main>
+
+        <main>{children}</main>
+
         <footer className="site-footer">
-          <nav aria-label="সাইটের তথ্য">
-            <Link href="/about/">আমাদের সম্পর্কে</Link>
-            <Link href="/contact/">যোগাযোগ</Link>
-            <Link href="/privacy/">গোপনীয়তা নীতি</Link>
-            <Link href="/terms/">শর্তাবলি</Link>
-          </nav>
-          <p>
-            এই সাইটের হিসাব তথ্যের জন্য। গুরুত্বপূর্ণ সিদ্ধান্তের আগে সংশ্লিষ্ট প্রতিষ্ঠান থেকে মিলিয়ে নিন।
-          </p>
+          <div className="wrap">
+            <div className="foot-grid">
+              <div className="foot-brand">
+                <Link href="/" className="logo">
+                  {site.name}
+                  <span className="dot">.</span>
+                </Link>
+                <p>বাংলাদেশিদের প্রতিদিনের হিসাবের ফ্রি টুল। অ্যাকাউন্ট লাগে না, আপনার তথ্য ব্রাউজারের বাইরে যায় না।</p>
+              </div>
+              <div>
+                <h3>টুল</h3>
+                <ul>
+                  {groups.flatMap((g) => tools.filter((t) => t.group === g)).map((t) => (
+                    <li key={t.href}>
+                      <Link href={t.href}>{t.title}</Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <h3>সাইট</h3>
+                <ul>
+                  <li>
+                    <Link href="/about/">আমাদের সম্পর্কে</Link>
+                  </li>
+                  <li>
+                    <Link href="/contact/">যোগাযোগ</Link>
+                  </li>
+                  <li>
+                    <Link href="/privacy/">গোপনীয়তা নীতি</Link>
+                  </li>
+                  <li>
+                    <Link href="/terms/">শর্তাবলি</Link>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div className="foot-bottom">
+              <span>হিসাব তথ্যের জন্য। গুরুত্বপূর্ণ সিদ্ধান্তের আগে সংশ্লিষ্ট প্রতিষ্ঠান থেকে মিলিয়ে নিন।</span>
+              <span>
+                তৈরি করেছেন <a href="https://mustafiz.online">Mustafiz</a>
+              </span>
+            </div>
+          </div>
         </footer>
       </body>
     </html>

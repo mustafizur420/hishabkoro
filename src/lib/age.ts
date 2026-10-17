@@ -1,4 +1,12 @@
-export type Age = { years: number; months: number; days: number; totalDays: number };
+export type Age = {
+  years: number;
+  months: number;
+  days: number;
+  totalDays: number;
+  totalMonths: number;
+  /** পরের জন্মদিন আর কত দিন পর (জন্মদিনের দিনে ০) */
+  daysToBirthday: number;
+};
 
 const parse = (iso: string) => {
   const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso);
@@ -30,10 +38,16 @@ export function ageOn(birthIso: string, onIso: string): Age | null {
   if (addMonths(full) > o.t) full -= 1;
 
   const days = Math.round((o.t - addMonths(full)) / 86400000);
+  const years = Math.floor(full / 12);
+  // আজ জন্মদিন হলে ০, নইলে পরের বছরপূর্তি পর্যন্ত দিন
+  const thisYearsBirthday = addMonths(years * 12);
+  const nextBirthday = thisYearsBirthday === o.t ? o.t : addMonths((years + 1) * 12);
   return {
-    years: Math.floor(full / 12),
+    years,
     months: full % 12,
     days,
     totalDays: Math.round((o.t - b.t) / 86400000),
+    totalMonths: full,
+    daysToBirthday: Math.round((nextBirthday - o.t) / 86400000),
   };
 }

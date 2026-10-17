@@ -5,7 +5,7 @@ export const metadata: Metadata = { title: 'আমাদের সম্পর�
 
 export default function About() {
   return (
-    <div className="prose">
+    <div className="plain wrap narrow prose">
       <h1>আমাদের সম্পর্কে</h1>
       <p className="lead">“{site.name}” বাংলাদেশের মানুষের প্রতিদিনের হিসাবের জন্য ফ্রি টুলের একটা সংগ্রহ।</p>
       <p>

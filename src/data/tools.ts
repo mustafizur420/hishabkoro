@@ -1,14 +1,74 @@
 export const groups = ['শিক্ষা ও চাকরি', 'টাকা-পয়সা', 'বাংলা লেখা', 'জমি ও তারিখ'] as const;
 
-export type Tool = { href: string; title: string; desc: string; group: (typeof groups)[number] };
+export type Tone = 'green' | 'yellow' | 'orange' | 'peach' | 'cream';
 
-// নতুন টুল যোগ করলে এখানে একটা লাইন দাও — হোম পেজ, sitemap আর "সম্পর্কিত টুল" নিজে থেকে আপডেট হবে
+export type Tool = {
+  href: string;
+  title: string;
+  desc: string;
+  group: (typeof groups)[number];
+  /** কার্ডের গোল চিহ্নে দেখানো ছোট লেখা */
+  icon: string;
+  tone: Tone;
+  /** সার্চে মেলানোর জন্য অতিরিক্ত শব্দ (বাংলা, ইংরেজি, Banglish) */
+  keywords: string;
+};
+
+// নতুন টুল যোগ করলে এখানে একটা লাইন দাও — হোম পেজ, ফুটার, sitemap আর "আরও হিসাব" নিজে থেকে আপডেট হবে
 export const tools: Tool[] = [
   // title-এ সেই ভাষার শব্দ রাখো যেভাবে মানুষ সার্চ করে (CGPA, EMI ইংরেজিতে; জমির মাপ বাংলায়)
-  { href: '/cgpa/', title: 'CGPA Calculator', desc: 'সেমিস্টারের GPA আর মোট CGPA', group: 'শিক্ষা ও চাকরি' },
-  { href: '/age-calculator/', title: 'বয়স ক্যালকুলেটর (Age Calculator)', desc: 'চাকরির আবেদনের তারিখে বয়স কত', group: 'শিক্ষা ও চাকরি' },
-  { href: '/emi-calculator/', title: 'EMI Calculator', desc: 'লোনের মাসিক কিস্তি আর মোট সুদ', group: 'টাকা-পয়সা' },
-  { href: '/bijoy-to-unicode/', title: 'Bijoy to Unicode', desc: 'বিজয়ের লেখা ইউনিকোডে', group: 'বাংলা লেখা' },
-  { href: '/unicode-to-bijoy/', title: 'Unicode to Bijoy', desc: 'ইউনিকোড লেখা বিজয় (SutonnyMJ)-এ', group: 'বাংলা লেখা' },
-  { href: '/land-converter/', title: 'জমির মাপ ক্যালকুলেটর', desc: 'শতাংশ, কাঠা, বিঘা, একর, বর্গফুট', group: 'জমি ও তারিখ' },
+  {
+    href: '/cgpa/',
+    title: 'CGPA Calculator',
+    desc: 'সেমিস্টারের GPA আর মোট CGPA',
+    group: 'শিক্ষা ও চাকরি',
+    icon: 'A+',
+    tone: 'green',
+    keywords: 'cgpa gpa result রেজাল্ট সিজিপিএ জিপিএ গ্রেড grade university ভার্সিটি',
+  },
+  {
+    href: '/age-calculator/',
+    title: 'বয়স ক্যালকুলেটর (Age Calculator)',
+    desc: 'চাকরির আবেদনের তারিখে বয়স কত',
+    group: 'শিক্ষা ও চাকরি',
+    icon: '২৫',
+    tone: 'yellow',
+    keywords: 'age boyos বয়স জন্মতারিখ birthday চাকরি job circular',
+  },
+  {
+    href: '/emi-calculator/',
+    title: 'EMI Calculator',
+    desc: 'লোনের মাসিক কিস্তি আর মোট সুদ',
+    group: 'টাকা-পয়সা',
+    icon: '৳',
+    tone: 'orange',
+    keywords: 'emi loan লোন কিস্তি kisti সুদ interest bank ব্যাংক',
+  },
+  {
+    href: '/bijoy-to-unicode/',
+    title: 'Bijoy to Unicode',
+    desc: 'বিজয়ের লেখা ইউনিকোডে',
+    group: 'বাংলা লেখা',
+    icon: 'অ',
+    tone: 'peach',
+    keywords: 'bijoy unicode বিজয় ইউনিকোড sutonnymj sutonny converter কনভার্টার font ফন্ট',
+  },
+  {
+    href: '/unicode-to-bijoy/',
+    title: 'Unicode to Bijoy',
+    desc: 'ইউনিকোড লেখা বিজয়ে (SutonnyMJ)',
+    group: 'বাংলা লেখা',
+    icon: 'Av',
+    tone: 'cream',
+    keywords: 'bijoy unicode বিজয় ইউনিকোড sutonnymj sutonny converter কনভার্টার font ফন্ট',
+  },
+  {
+    href: '/land-converter/',
+    title: 'জমির মাপ ক্যালকুলেটর',
+    desc: 'শতাংশ, কাঠা, বিঘা, একর, বর্গফুট',
+    group: 'জমি ও তারিখ',
+    icon: 'কা',
+    tone: 'green',
+    keywords: 'jomi jomir map জমি কাঠা katha বিঘা bigha শতাংশ decimal একর acre বর্গফুট',
+  },
 ];

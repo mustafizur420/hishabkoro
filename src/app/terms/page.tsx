@@ -5,7 +5,7 @@ export const metadata: Metadata = { title: 'শর্তাবলি', alternate
 
 export default function Terms() {
   return (
-    <div className="prose">
+    <div className="plain wrap narrow prose">
       <h1>শর্তাবলি</h1>
       <p className="lead">সর্বশেষ হালনাগাদ: ১৭ অক্টোবর ২০২৬</p>
       <p>
