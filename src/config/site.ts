@@ -3,7 +3,10 @@
 export const site = {
   name: 'হিসাব করো',
   tagline: 'প্রতিদিনের হিসাব, এক জায়গায়',
-  url: (process.env.NEXT_PUBLIC_SITE_URL || 'https://hishabkoro.com').replace(/\/$/, ''),
+  // GitHub কখনো ঠিকানা http:// দিয়ে দেয়; Google-এর জন্য সবসময় https রাখি
+  url: (process.env.NEXT_PUBLIC_SITE_URL || 'https://hishabkoro.com')
+    .replace(/^http:\/\//, 'https://')
+    .replace(/\/$/, ''),
   // AdSense অনুমোদন পেলে এখানে ca-pub-XXXX বসবে (NEXT_PUBLIC_ADSENSE_CLIENT)
   adsenseClient: process.env.NEXT_PUBLIC_ADSENSE_CLIENT || '',
   contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'contact@hishabkoro.com',
