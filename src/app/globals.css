@@ -1,0 +1,184 @@
+/* হিসাব করো — নকশার ভাবনা: হিসাবের খাতা। নীল রুলটানা পাতা, বাঁ পাশে লাল মার্জিন, ফাউন্টেন পেনের নীল কালি।
+   ফলাফল খাতার "মোট" লাইনের মতো: দুই দাগের নিচে, হাইলাইটারে দাগানো। */
+
+:root {
+  --paper: #f3f6f8;
+  --sheet: #ffffff;
+  --ink: #18263b;
+  --ink-soft: #52627a;
+  --rule: #d2dfea;
+  --margin: #cc3f35;
+  --pen: #1e4db0;
+  --highlight: #ffe36a;
+  --line: 32px;
+  --serif: 'Tiro Bangla', 'Noto Serif Bengali', serif;
+  --sans: 'Hind Siliguri', 'Noto Sans Bengali', system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+a { color: var(--pen); text-underline-offset: 3px; }
+a:hover { text-decoration-thickness: 2px; }
+
+:focus-visible { outline: 2px solid var(--pen); outline-offset: 2px; border-radius: 2px; }
+
+h1, h2, h3 { font-family: var(--serif); font-weight: 400; line-height: 1.3; margin: 0; }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: 0.5rem; }
+h3 { font-size: 1.1rem; }
+
+p { margin: 0 0 1rem; }
+
+/* ---- পাতা ---- */
+.site-header,
+.site-footer,
+.sheet { max-width: 760px; margin: 0 auto; padding-left: 16px; padding-right: 16px; }
+
+.site-header { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding-top: 20px; padding-bottom: 12px; }
+.brand { font-family: var(--serif); font-size: 1.5rem; color: var(--ink); text-decoration: none; }
+.site-header nav a { color: var(--ink-soft); text-decoration: none; font-size: 0.95rem; }
+.site-header nav a:hover { color: var(--pen); }
+
+.sheet {
+  background-color: var(--sheet);
+  background-image: repeating-linear-gradient(to bottom, transparent 0, transparent calc(var(--line) - 1px), var(--rule) calc(var(--line) - 1px), var(--rule) var(--line));
+  background-position: 0 12px;
+  border-left: 2px solid var(--margin);
+  padding-top: 28px;
+  padding-bottom: 40px;
+  min-height: 60vh;
+}
+@media (min-width: 720px) {
+  .sheet { padding-left: 40px; padding-right: 40px; border-left-width: 3px; }
+}
+
+/* লেখা যেন রুল লাইনের ওপর না পড়ে: লেখার ব্লক সাদা, রুল লাইন শুধু ফাঁকা জায়গায় দেখা যায় */
+.sheet h1, .sheet h2, .sheet h3, .sheet p, .sheet label, .sheet caption, .sheet .label { background: var(--sheet); }
+
+.lead { color: var(--ink-soft); max-width: 62ch; margin-top: 0.5rem; }
+
+/* লেখার অংশে রুল লাইন একটু হালকা দেখাতে সাদা ব্যাকগ্রাউন্ড */
+.prose { max-width: 66ch; }
+.prose p, .prose li { background: var(--sheet); }
+.prose ul, .prose ol { padding-left: 1.25rem; }
+
+/* ---- ফর্ম ---- */
+.calc { margin-top: 1.75rem; background: var(--sheet); }
+.field { display: grid; gap: 4px; }
+.field label, .label { font-size: 0.92rem; color: var(--ink-soft); }
+.row { display: grid; gap: 12px; }
+@media (min-width: 560px) {
+  .row-2 { grid-template-columns: 1fr 1fr; }
+  .row-3 { grid-template-columns: 1fr 1fr 1fr; }
+}
+
+input, select {
+  font: inherit;
+  color: var(--ink);
+  background: #fff;
+  border: 1px solid #b9c8d6;
+  border-radius: 6px;
+  padding: 8px 10px;
+  min-height: 44px;
+  width: 100%;
+}
+input:focus, select:focus { border-color: var(--pen); outline: none; box-shadow: 0 0 0 2px rgba(30, 77, 176, 0.25); }
+
+button {
+  font: inherit;
+  cursor: pointer;
+  min-height: 44px;
+  border-radius: 6px;
+  padding: 8px 14px;
+}
+.btn { background: var(--pen); color: #fff; border: 1px solid var(--pen); }
+.btn:hover { background: #173d8f; }
+.btn-quiet { background: transparent; color: var(--pen); border: 1px dashed #9db3d6; }
+.btn-quiet:hover { border-style: solid; }
+.btn-remove { background: transparent; border: none; color: var(--ink-soft); padding: 8px; min-width: 44px; }
+.btn-remove:hover { color: var(--margin); }
+
+/* CGPA কোর্স তালিকা */
+.courses { display: grid; gap: 8px; margin-bottom: 12px; }
+.course { display: grid; grid-template-columns: 1fr 90px 140px 44px; gap: 8px; align-items: end; }
+@media (max-width: 480px) {
+  .course { grid-template-columns: 1fr 1fr 44px; }
+  .course .course-name { grid-column: 1 / -1; }
+}
+
+/* ---- খাতার "মোট" লাইন — এই সাইটের মূল চিহ্ন ---- */
+.total {
+  margin-top: 24px;
+  padding: 10px 0 14px;
+  border-bottom: 4px double var(--ink);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 16px;
+  background: var(--sheet);
+}
+.total-label { font-family: var(--serif); font-size: 1.15rem; }
+.total-value {
+  font-family: var(--serif);
+  font-size: 2.6rem;
+  line-height: 1.1;
+  padding: 0 6px;
+  background: linear-gradient(transparent 38%, var(--highlight) 38%, var(--highlight) 88%, transparent 88%);
+}
+.total-note { flex-basis: 100%; color: var(--ink-soft); font-size: 0.95rem; }
+@media (max-width: 480px) {
+  .total-value { font-size: 2.1rem; }
+}
+.total-empty { color: var(--ink-soft); font-size: 1.05rem; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .total-value { transition: background-size 0.3s ease; }
+}
+
+/* হিসাবের খতিয়ান টেবিল */
+table { border-collapse: collapse; width: 100%; background: var(--sheet); }
+th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--rule); }
+th { font-weight: 600; color: var(--ink-soft); font-size: 0.92rem; }
+td.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+/* হোম পেজের সূচিপত্র */
+.index-group { margin-top: 2rem; }
+.index-group h2 { margin-top: 0; font-size: 1.15rem; color: var(--ink-soft); }
+.index-list { list-style: none; padding: 0; margin: 0.25rem 0 0; }
+.index-list li { border-bottom: 1px dotted #aebfcf; background: var(--sheet); }
+.index-list a { display: flex; justify-content: space-between; gap: 16px; padding: 10px 0; text-decoration: none; color: var(--ink); }
+.index-list a:hover .index-title { color: var(--pen); text-decoration: underline; }
+.index-title { font-size: 1.1rem; font-weight: 600; }
+.index-desc { color: var(--ink-soft); text-align: right; }
+@media (max-width: 560px) {
+  .index-list a { flex-direction: column; gap: 0; }
+  .index-desc { text-align: left; font-size: 0.95rem; }
+}
+
+/* FAQ */
+.faq details { border-bottom: 1px solid var(--rule); padding: 8px 0; background: var(--sheet); }
+.faq summary { cursor: pointer; font-weight: 600; min-height: 32px; }
+.faq details p { margin: 6px 0 4px; color: var(--ink); }
+
+.related { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 20px; }
+
+.ad-slot { margin: 2rem 0; min-height: 100px; }
+
+.site-footer { padding-top: 24px; padding-bottom: 40px; color: var(--ink-soft); font-size: 0.92rem; }
+.site-footer nav { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-bottom: 8px; }
+.site-footer a { color: var(--ink-soft); }
+
+.small { font-size: 0.92rem; color: var(--ink-soft); }
+.error { color: var(--margin); font-size: 0.95rem; margin-top: 6px; }
