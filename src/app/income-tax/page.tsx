@@ -54,7 +54,7 @@ export default function IncomeTaxPage() {
           {SLABS.map(([size, rate]) => {
             const row = (
               <tr key={rate}>
-                <td>{size === Infinity ? 'বাকি সব আয়' : `${from === 0 ? 'প্রথম' : 'পরের'} ${bn(size, 0)} টাকা`}</td>
+                <td>{size === Infinity ? 'বাকি সব আয়' : `${from === 0 ? 'করমুক্ত সীমার পরের' : 'তার পরের'} ${bn(size, 0)} টাকা`}</td>
                 <td className="num">{bn(rate)}%</td>
               </tr>
             );
