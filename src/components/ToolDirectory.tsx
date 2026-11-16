@@ -6,6 +6,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { groups, tools, type Tool } from '@/data/tools';
 import { bn } from '@/lib/format';
 import { TodayCard } from './TodayCard';
+import { ToolIcon } from './ToolIcon';
 
 const ALL = 'সব';
 const num = (n: number) => bn(n, 0).replace(/,/g, '');
@@ -14,7 +15,7 @@ export function ToolCard({ tool }: { tool: Tool }) {
   return (
     <Link href={tool.href} className="tool-card">
       <span className={`tool-icon tone-${tool.tone}`} aria-hidden="true">
-        {tool.icon}
+        <ToolIcon href={tool.href} fallback={tool.icon} />
       </span>
       <span className="tool-text">
         <h3>{tool.title}</h3>
@@ -30,6 +31,39 @@ export function ToolCard({ tool }: { tool: Tool }) {
 const match = (t: Tool, q: string) => `${t.title} ${t.desc} ${t.keywords}`.toLowerCase().includes(q);
 
 // হিরোর নিচে "জনপ্রিয়" লিংক
+// সার্চ বক্সে ঘুরে ঘুরে আসা উদাহরণ
+const EXAMPLES = ['CGPA হিসাব', 'কাঠা থেকে শতাংশ', 'আজকের নামাজের সময়', 'লোনের মাসিক কিস্তি', 'বিজয় থেকে ইউনিকোড', 'বিদ্যুৎ বিল'];
+
+/** স্ক্রিনে এলে ০ থেকে গুনে ওঠা সংখ্যা */
+function CountUp({ to, suffix = '' }: { to: number; suffix?: string }) {
+  const el = useRef<HTMLElement>(null);
+  const [v, setV] = useState(to); // সার্ভারে আসল সংখ্যাটাই থাকে
+  useEffect(() => {
+    const node = el.current;
+    if (!node || !to || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    setV(0);
+    const io = new IntersectionObserver(([en]) => {
+      if (!en.isIntersecting) return;
+      io.disconnect();
+      const t0 = performance.now();
+      const step = (t: number) => {
+        const k = Math.min(1, (t - t0) / 1100);
+        setV(Math.round(to * (1 - Math.pow(1 - k, 3))));
+        if (k < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    });
+    io.observe(node);
+    return () => io.disconnect();
+  }, [to]);
+  return (
+    <b ref={el}>
+      {num(v)}
+      {suffix}
+    </b>
+  );
+}
+
 const POPULAR = ['/cgpa/', '/prayer-times/', '/land-converter/', '/bijoy-to-unicode/', '/emi-calculator/'];
 
 /** হোম পেজ: হিরো (সার্চ + আজকের কার্ড), টুলের তালিকা, কেন হিসাব করো, আর অনুরোধের ব্যানার */
@@ -40,6 +74,14 @@ export function ToolDirectory({ title, highlight, lead, initialIso }: { title: s
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(0);
   const input = useRef<HTMLInputElement>(null);
+  const [ex, setEx] = useState(0);
+  const [touched, setTouched] = useState(false); // ক্যাটাগরি বদলালে তবেই কার্ডগুলো নতুন করে ভেসে ওঠে
+
+  useEffect(() => {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const id = setInterval(() => setEx((i) => (i + 1) % EXAMPLES.length), 2600);
+    return () => clearInterval(id);
+  }, []);
 
   const q = query.trim().toLowerCase();
   const suggestions = useMemo(() => (q ? tools.filter((t) => match(t, q)).slice(0, 6) : []), [q]);
@@ -69,16 +111,18 @@ export function ToolDirectory({ title, highlight, lead, initialIso }: { title: s
         <span className="hero-grid-bg" aria-hidden="true" />
         <div className="wrap hero-split">
           <div className="hero-main">
-            <span className="eyebrow">
+            <span className="eyebrow rise" style={{ "--d": 0 } as React.CSSProperties}>
               <i aria-hidden="true" />
               {num(tools.length)}টি ফ্রি টুল · সম্পূর্ণ বাংলায়
             </span>
-            <h1>
+            <h1 className="rise" style={{ "--d": 1 } as React.CSSProperties}>
               {title} <span className="hl">{highlight}</span>
             </h1>
-            <p className="lead">{lead}</p>
+            <p className="lead rise" style={{ "--d": 2 } as React.CSSProperties}>
+              {lead}
+            </p>
 
-            <div className={`search${showList ? ' is-open' : ''}`} role="search">
+            <div className={`search rise${showList ? ' is-open' : ''}`} role="search" style={{ '--d': 3 } as React.CSSProperties}>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden="true">
                 <circle cx="11" cy="11" r="7" />
                 <path d="m20 20-3.5-3.5" strokeLinecap="round" />
@@ -92,7 +136,7 @@ export function ToolDirectory({ title, highlight, lead, initialIso }: { title: s
                 type="search"
                 autoComplete="off"
                 value={query}
-                placeholder="কোন হিসাব করবেন? যেমন CGPA, কাঠা, বিজয়"
+                placeholder={`কোন হিসাব করবেন? যেমন ${EXAMPLES[ex]}`}
                 role="combobox"
                 aria-expanded={showList}
                 aria-controls="tool-suggest"
@@ -130,7 +174,7 @@ export function ToolDirectory({ title, highlight, lead, initialIso }: { title: s
                       <li key={t.href} id={`sg-${i}`} role="option" aria-selected={i === active}>
                         <Link href={t.href} onMouseEnter={() => setActive(i)}>
                           <span className={`tool-icon sm tone-${t.tone}`} aria-hidden="true">
-                            {t.icon}
+                            <ToolIcon href={t.href} fallback={t.icon} />
                           </span>
                           <span>
                             <b>{t.title}</b>
@@ -148,7 +192,7 @@ export function ToolDirectory({ title, highlight, lead, initialIso }: { title: s
               ) : null}
             </div>
 
-            <div className="popular">
+            <div className="popular rise" style={{ "--d": 4 } as React.CSSProperties}>
               <span>জনপ্রিয়:</span>
               {POPULAR.map((href) => tools.find((t) => t.href === href)!).map((t) => (
                 <Link key={t.href} href={t.href}>
@@ -162,13 +206,13 @@ export function ToolDirectory({ title, highlight, lead, initialIso }: { title: s
         </div>
 
         <div className="wrap">
-          <ul className="trust">
+          <ul className="trust reveal">
             <li>
-              <b>{num(tools.length)}টি</b>
+              <CountUp to={tools.length} suffix="টি" />
               <span>দরকারি টুল</span>
             </li>
             <li>
-              <b>৬৪</b>
+              <CountUp to={64} />
               <span>জেলার নামাজের সময়</span>
             </li>
             <li>
@@ -185,7 +229,7 @@ export function ToolDirectory({ title, highlight, lead, initialIso }: { title: s
 
       <section className="directory" id="tools" aria-labelledby="tools-title">
         <div className="wrap">
-          <div className="section-head">
+          <div className="section-head reveal">
             <div>
               <span className="kicker">সব টুল</span>
               <h2 id="tools-title">যে হিসাব দরকার, বেছে নিন</h2>
@@ -194,16 +238,19 @@ export function ToolDirectory({ title, highlight, lead, initialIso }: { title: s
           </div>
           <div className="tabs" role="group" aria-label="ক্যাটাগরি">
             {[ALL, ...groups].map((g) => (
-              <button key={g} type="button" className="tab" aria-pressed={group === g} onClick={() => setGroup(g)}>
+              <button key={g} type="button" className="tab" aria-pressed={group === g} onClick={() => {
+                  setGroup(g);
+                  setTouched(true);
+                }}>
                 {g}
                 <span className="tab-count">{num(g === ALL ? tools.length : counts[g])}</span>
               </button>
             ))}
           </div>
           {shown.length > 0 ? (
-            <ul className="tool-grid">
-              {shown.map((t) => (
-                <li key={t.href}>
+            <ul className={`tool-grid${touched ? ' pop' : ''}`} key={touched ? group : 'all'}>
+              {shown.map((t, i) => (
+                <li key={t.href} className="reveal" style={{ '--i': i } as React.CSSProperties}>
                   <ToolCard tool={t} />
                 </li>
               ))}
@@ -219,19 +266,19 @@ export function ToolDirectory({ title, highlight, lead, initialIso }: { title: s
 
       <section className="why" aria-labelledby="why-title">
         <div className="wrap">
-          <div className="section-head">
+          <div className="section-head reveal">
             <div>
               <span className="kicker">কেন হিসাব করো</span>
               <h2 id="why-title">সহজ, ফ্রি, আর আপনার তথ্য আপনার কাছেই</h2>
             </div>
           </div>
           <ul className="why-grid">
-            <li>
+            <li className="reveal">
               <span className="why-icon tone-green" aria-hidden="true">✓</span>
               <h3>ফ্রি, সাইন-আপ ছাড়া</h3>
               <p>অ্যাকাউন্ট খুলতে হয় না, কোনো লিমিট নেই। খুলুন, সংখ্যা দিন, উত্তর নিন।</p>
             </li>
-            <li>
+            <li className="reveal">
               <span className="why-icon tone-yellow" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
                   <rect x="5" y="11" width="14" height="9" rx="2" />
@@ -241,7 +288,7 @@ export function ToolDirectory({ title, highlight, lead, initialIso }: { title: s
               <h3>তথ্য আপনার ফোনেই</h3>
               <p>সব হিসাব আপনার ব্রাউজারে হয়। আপনার নম্বর, আয় বা জমির তথ্য কোথাও পাঠানো হয় না।</p>
             </li>
-            <li>
+            <li className="reveal">
               <span className="why-icon tone-orange" aria-hidden="true">৳</span>
               <h3>বাংলাদেশের নিয়মে</h3>
               <p>টাকা, কাঠা-বিঘা, বঙ্গাব্দ আর দেশের প্রচলিত নিয়ম ধরে হিসাব, সব বাংলায়।</p>
@@ -252,7 +299,7 @@ export function ToolDirectory({ title, highlight, lead, initialIso }: { title: s
 
       <section className="request">
         <div className="wrap">
-          <div className="request-card">
+          <div className="request-card reveal">
             <div>
               <h2>আপনার দরকারি হিসাবটা এখানে নেই?</h2>
               <p>জানান কোন টুল লাগবে। পরের টুলটা হয়তো সেটাই হবে।</p>

@@ -39,7 +39,7 @@ export function TodayCard({ initialIso }: { initialIso: string }) {
   const next = now == null ? null : SHOWN.find((k) => times[k].getTime() > now) ?? null;
 
   return (
-    <div className="today" aria-label="আজকের তারিখ ও নামাজের সময়">
+    <div className="today rise-side" aria-label="আজকের তারিখ ও নামাজের সময়">
       <div className="today-date">
         <span className="today-kicker">
           <i aria-hidden="true" />
